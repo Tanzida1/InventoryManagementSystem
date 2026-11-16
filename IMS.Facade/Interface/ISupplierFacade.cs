@@ -1,0 +1,25 @@
+﻿using IMS.Entities.Inventory;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace IMS.Facade.Interface
+{
+    public interface ISupplierFacade
+    {
+        // 1. Get all suppliers
+        Task<List<Supplier>> GetAllAsync();
+
+        // 2. Get supplier by ID
+        Task<Supplier?> GetByIdAsync(int supplierId);
+
+        // 3. Add new supplier
+        Task AddAsync(Supplier supplier);
+
+        // 4. Update supplier
+        Task UpdateAsync(Supplier supplier);
+
+        // 5. Delete supplier
+        Task DeleteAsync(int supplierId);
+    }
+}

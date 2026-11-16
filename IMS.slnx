@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Business/">
+    <Project Path="IMS.Facade/IMS.Facade.csproj" />
+  </Folder>
+  <Folder Name="/Library/">
+    <Project Path="IMS.DataAccess/IMS.DataAccess.csproj" />
+    <Project Path="IMS.Entities/IMS.Entities.csproj" />
+    <Project Path="IMS.Framework/IMS.Framework.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="IMS.Web.UI/IMS.Web.UI.csproj" />
+  </Folder>
+  <Folder Name="/Service/">
+    <Project Path="IMS.Web.Service/IMS.Web.Service.csproj" />
+  </Folder>
+</Solution>
