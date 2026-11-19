@@ -1,0 +1,97 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IEnumerable<IMS.Entities.Access.Permission>
+
+@{
+    ViewData["Title"] = "All Permissions";
+    Layout = "_PrivateLayout";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Top Header & Action Box -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-base-100 p-6 rounded-2xl border border-base-300 shadow-sm mb-6">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                All Permissions
+            </h2>
+            <p class="text-sm md:text-base text-base-content/70 mt-1">
+                Manage system permissions, access controls, and module mappings.
+            </p>
+        </div>
+
+        <!-- Create Button with Distinct Color and White Text -->
+        <p class="m-0">
+            <a asp-action="Create"
+               class="btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white border-none shadow-md hover:shadow-lg gap-2 font-semibold px-5 py-2.5 rounded-xl transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Create Permission
+            </a>
+        </p>
+    </div>
+
+    <!-- Styled Table Container -->
+    <div class="bg-base-100 rounded-2xl border border-base-300 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="table w-full text-left border-collapse">
+                <thead class="bg-base-200/60 text-base-content uppercase text-xs tracking-wider font-semibold border-b border-base-300">
+                    <tr>
+                        <th class="py-4 px-6">Permission ID</th>
+                        <th class="py-4 px-6">Permission Name</th>
+                        <th class="py-4 px-6">Display Text</th>
+                        @* <th class="py-4 px-6">Parent ID</th> *@
+                        <th class="py-4 px-6">Status</th>
+                        <th class="py-4 px-6 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-base-200 text-sm">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-base-50/50 transition-colors duration-150">
+                            <td class="py-4 px-6 font-medium text-base-content/80">@item.PermissionId</td>
+                            <td class="py-4 px-6 font-semibold text-base-content">@item.PermissionName</td>
+                            <td class="py-4 px-6 text-base-content/70">@item.DisplayText</td>
+                            @* <td class="py-4 px-6 font-mono text-base-content/60">@item.ParentId</td> *@
+                            <td class="py-4 px-6">
+                                @if (item.IsActive)
+                                {
+                                    <span class="badge badge-success badge-soft gap-1 px-3 py-2 font-medium text-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-error badge-soft gap-1 px-3 py-2 font-medium text-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        Inactive
+                                    </span>
+                                }
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.PermissionId"
+                                       class="btn btn-sm btn-outline btn-warning px-3 rounded-lg font-medium">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.PermissionId"
+                                       class="btn btn-sm btn-outline btn-error px-3 rounded-lg font-medium">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

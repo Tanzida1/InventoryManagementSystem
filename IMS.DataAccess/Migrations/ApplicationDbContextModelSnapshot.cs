@@ -59,6 +59,12 @@ namespace IMS.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionId"));
 
+                    b.Property<string>("DisplayText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PermissionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,7 +109,8 @@ namespace IMS.DataAccess.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId", "PermissionId")
+                        .IsUnique();
 
                     b.ToTable("RolePermissions");
                 });

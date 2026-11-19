@@ -1,8 +1,176 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+
+    var userName = User.Identity?.Name ?? "User";
+    var isAdmin = User.IsInRole("Administrator");
 }
+
+<div class="dashboard">
+
+    <!-- Welcome Section -->
+    <section class="dashboard-welcome">
+        <div class="welcome-content">
+            <span class="welcome-label">IMS WORKSPACE</span>
+
+            <h2>Welcome back, @userName!</h2>
+
+            <p>
+                Manage your inventory operations and system activities
+                from one central workspace.
+            </p>
+
+            <div class="welcome-date">
+                <i data-lucide="calendar-days"></i>
+                <span>@DateTime.Now.ToString("dddd, dd MMMM yyyy")</span>
+            </div>
+        </div>
+
+        <div class="welcome-icon">
+            <i data-lucide="layout-dashboard"></i>
+        </div>
+    </section>
+
+
+    <!-- Dashboard Heading -->
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading">
+            <div class="flex flex-col items-center  mg-auto  justify-center text-center my-6">
+                
+                <h3 class="text-3xl text-xl-center font-bold bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+                    Quick Access
+                </h3>
+           
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mt-3"></div>
+            </div>
+        </div>
+
+        <div class="quick-access-grid">
+
+            @if (isAdmin)
+            {
+                <a asp-controller="Users"
+                   asp-action="Index"
+                   class="quick-access-card">
+                    <div class="quick-access-icon icon-blue">
+                        <i data-lucide="users"></i>
+                    </div>
+
+                    <div class="quick-access-info">
+                        <h4>User Management</h4>
+                        <p>Manage system users and their roles.</p>
+                    </div>
+
+                    <i data-lucide="arrow-up-right" class="quick-access-arrow"></i>
+                </a>
+
+                <a asp-controller="Permission"
+                   asp-action="Index"
+                   class="quick-access-card">
+                    <div class="quick-access-icon icon-purple">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+
+                    <div class="quick-access-info">
+                        <h4>Permissions</h4>
+                        <p>View and manage system permissions.</p>
+                    </div>
+
+                    <i data-lucide="arrow-up-right" class="quick-access-arrow"></i>
+                </a>
+
+                <a asp-controller="RolePermission"
+                   asp-action="Index"
+                   class="quick-access-card">
+                    <div class="quick-access-icon icon-green">
+                        <i data-lucide="shield"></i>
+                    </div>
+
+                    <div class="quick-access-info">
+                        <h4>Role Permissions</h4>
+                        <p>Assign permissions to system roles.</p>
+                    </div>
+
+                    <i data-lucide="arrow-up-right" class="quick-access-arrow"></i>
+                </a>
+            }
+            else
+            {
+                <div class="quick-access-card">
+                    <div class="quick-access-icon icon-blue">
+                        <i data-lucide="package"></i>
+                    </div>
+
+                    <div class="quick-access-info">
+                        <h4>Inventory Workspace</h4>
+                        <p>Inventory operations will be available here.</p>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+
+
+    <!-- System Information -->
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading">
+            <div>
+                <h3>System Overview</h3>
+                <p>General information about your workspace.</p>
+            </div>
+        </div>
+
+        <div class="system-overview-card">
+            <div class="overview-icon">
+                <i data-lucide="database"></i>
+            </div>
+
+            <div class="overview-content">
+                <h4>Inventory Management System</h4>
+                <p>
+                    Your central platform for managing inventory,
+                    users, permissions, and business operations.
+                </p>
+                <span class="system-status">
+                    <span class="status-dot"></span>
+                    System Workspace
+                </span>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<form asp-controller="Authentication"
+      asp-action="Logout"
+      method="post">
+    <button type="submit">Logout</button>
+</form>
+
+
+
+
+@if (User.IsInRole("Administrator"))
+{
+    <li>
+        <a asp-controller="Users"
+           asp-action="Index">
+            User Management
+        </a>
+    </li>
+}

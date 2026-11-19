@@ -1,0 +1,90 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IMS.Entities.Access.Permission
+
+@{
+    ViewData["Title"] = "Create Permission";
+    Layout = "_PrivateLayout";
+}
+
+<div class="min-h-[85vh] flex items-center justify-center px-4 py-10 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-3xl">
+
+    <div class="w-full max-w-2xl bg-base-100/95 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-base-300 shadow-xl">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white shadow-md mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Create Permission
+            </h2>
+            <p class="text-sm md:text-base text-base-content/70 mt-2">
+                Add a new system permission module and map its parent hierarchy.
+            </p>
+        </div>
+
+        <form asp-action="Create" method="post" class="space-y-5">
+
+            <!-- Permission Name -->
+            <div class="form-control w-full">
+                <label asp-for="PermissionName" class="label font-semibold text-base text-base-content"></label>
+                <input asp-for="PermissionName"
+                       placeholder="e.g. Users.Create"
+                       class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40" />
+                <span asp-validation-for="PermissionName" class="text-error text-xs mt-1"></span>
+            </div>
+
+            <!-- Display Text -->
+            <div class="form-control w-full">
+                <label asp-for="DisplayText" class="label font-semibold text-base text-base-content"></label>
+                <input asp-for="DisplayText"
+                       placeholder="e.g. Add New User"
+                       class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40" />
+                <span asp-validation-for="DisplayText" class="text-error text-xs mt-1"></span>
+            </div>
+
+            <!-- Parent Permission -->
+            @* <div class="form-control w-full">
+                <label class="label font-semibold text-base text-base-content">Parent Permission</label>
+                <select asp-for="ParentId"
+                        asp-items="ViewBag.ParentPermissions"
+                        class="select select-bordered select-lg w-full rounded-xl focus:select-primary text-base bg-base-100 border-2 font-medium shadow-sm">
+                    <option value="">-- No Parent (Root Level) --</option>
+                </select>
+            </div> *@
+
+            <!-- Is Active Checkbox -->
+            <div class="form-control pt-2">
+                <label class="cursor-pointer label justify-start gap-4 bg-base-200/40 p-4 rounded-xl border border-base-300">
+                    <input asp-for="IsActive" type="checkbox" class="checkbox checkbox-primary checkbox-lg rounded-lg" />
+                    <span class="label-text font-semibold text-base text-base-content select-none">Active Status</span>
+                </label>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
+                <button type="submit"
+                        class="btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white btn-lg w-full sm:flex-1 font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border-none">
+                    Save Permission
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline btn-lg w-full sm:w-auto px-6 rounded-xl font-medium">
+                    Back
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

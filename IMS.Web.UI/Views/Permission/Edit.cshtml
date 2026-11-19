@@ -1,0 +1,160 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IMS.Entities.Access.Permission
+
+@{
+    ViewData["Title"] = "Edit Permission";
+    Layout = "_PrivateLayout";
+}
+
+<style>
+    .edit-permission-container {
+        max-width: 650px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+        .edit-permission-container h2 {
+            margin-bottom: 25px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #f1f2f6;
+            padding-bottom: 15px;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 15px;
+        border: 1px solid #dcdde1;
+        border-radius: 6px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            outline: none;
+        }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .form-check-input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .form-check-label {
+        font-weight: 600;
+        color: #34495e;
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+
+    .text-danger {
+        color: #e74c3c;
+        font-size: 13px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+        margin-left: 10px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+</style>
+
+<div class="edit-permission-container">
+    <h2>Edit Permission</h2>
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="PermissionId" />
+
+        <div class="form-group mb-3">
+            <label asp-for="PermissionName"></label>
+            <input asp-for="PermissionName" class="form-control" />
+            <span asp-validation-for="PermissionName"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="DisplayText"></label>
+            <input asp-for="DisplayText" class="form-control" />
+            <span asp-validation-for="DisplayText"
+                  class="text-danger"></span>
+        </div>
+
+        @* <div class="form-group mb-3">
+            <label>Parent Permission</label>
+            <select asp-for="ParentId"
+                    asp-items="ViewBag.ParentPermissions"
+                    class="form-control">
+                <option value="">-- No Parent --</option>
+            </select>
+        </div> *@
+
+        <div class="form-check mb-3">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

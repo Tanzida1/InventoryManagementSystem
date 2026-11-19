@@ -220,6 +220,41 @@ namespace IMS.DataAccess
                 .HasForeignKey(x => x.PermissionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Duplicate Permission Prevention
+
+
+            modelBuilder.Entity<RolePermission>()
+    .HasIndex(x => new { x.RoleId, x.PermissionId })
+    .IsUnique();
+
+
+
+
+
+
+
+
+            // Permission Parent and Child Relationship
+
+            //modelBuilder.Entity<Permission>()
+            //    .HasOne(permission => permission.ParentPermission)
+            //    .WithMany(permission => permission.ChildPermissions)
+            //    .HasForeignKey(permission => permission.ParentId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             // User and UserWarehouse Relationship
@@ -877,6 +912,16 @@ namespace IMS.DataAccess
                 .WithMany(conversation => conversation.AssistantMessages)
                 .HasForeignKey(message => message.ConversationId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+
+    //        modelBuilder.Entity<Permission>()
+    //.HasOne(permission => permission.ParentPermission)
+    //.WithMany(permission => permission.ChildPermissions)
+    //.HasForeignKey(permission => permission.ParentId)
+    //.OnDelete(DeleteBehavior.Restrict);
+
+
 
 
         }

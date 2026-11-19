@@ -1,0 +1,137 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using IMS.Entities.Access
+@model User
+
+@{
+    ViewData["Title"] = "Add User";
+}
+
+<div class="min-h-[85vh] flex items-center justify-center px-4 py-10 bg-red-50 rounded-3xl">
+
+    <div class="w-full max-w-2xl bg-base-100/95 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-base-300 shadow-xl">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-primary to-secondary text-bg-danger shadow-md mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Add New User
+            </h2>
+            <p class="text-sm md:text-base text-base-content/70 mt-2">
+                Create a new user account and assign system access role.
+            </p>
+        </div>
+
+        <!-- Error Alert -->
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-error shadow-sm mb-6 rounded-xl border border-error/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+
+        <!-- Form -->
+        <form asp-controller="Users"
+              asp-action="Create"
+              method="post"
+              class="space-y-5">
+
+            <!-- Full Name -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold text-base text-base-content">Full Name</span>
+                </label>
+                <input type="text"
+                       name="fullName"
+                       value="@Model.FullName"
+                       placeholder="Enter full name"
+                       class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40"
+                       required />
+            </div>
+
+            <!-- Email -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold text-base text-base-content">Email</span>
+                </label>
+                <input type="email"
+                       name="email"
+                       value="@Model.Email"
+                       placeholder="user@example.com"
+                       class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40"
+                       required />
+            </div>
+
+            <!-- Password & Confirm Password Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text font-semibold text-base text-base-content">Password</span>
+                    </label>
+                    <input type="password"
+                           name="password"
+                           minlength="8"
+                           placeholder="Min. 8 characters"
+                           class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40"
+                           required />
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text font-semibold text-base text-base-content">Confirm Password</span>
+                    </label>
+                    <input type="password"
+                           name="confirmPassword"
+                           minlength="8"
+                           placeholder="Re-enter password"
+                           class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40"
+                           required />
+                </div>
+            </div>
+
+            <!-- Select Role (Placed correctly at the bottom before buttons) -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold text-base text-base-content">Select Role</span>
+                </label>
+                <select name="roleName"
+                        class="select select-bordered select-lg w-full rounded-xl focus:select-primary text-base bg-base-100 border-2 font-medium shadow-sm"
+                        required>
+                    <option value="" disabled selected>-- Select System Role --</option>
+                    @foreach (var role in (List<Role>)ViewBag.Roles)
+                    {
+                        <option value="@role.RoleName">
+                            @role.RoleName
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
+                <button type="submit"
+                        class="btn btn-primary btn-lg w-full sm:flex-1 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
+                    Create User
+                </button>
+
+                <a asp-controller="Users"
+                   asp-action="Index"
+                   class="btn btn-outline btn-lg w-full sm:w-auto px-6 rounded-xl font-medium">
+                    Back to Users
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

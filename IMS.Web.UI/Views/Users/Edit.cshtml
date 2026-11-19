@@ -1,0 +1,125 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using IMS.Entities.Access
+@model User
+
+@{
+    ViewData["Title"] = "Edit User";
+
+    var currentRole = Model.UserRoles
+        .FirstOrDefault()?.Role?.RoleName;
+}
+
+<div class="min-h-[85vh] flex items-center justify-center px-4 py-10 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-3xl">
+
+    <div class="w-full max-w-2xl bg-base-100/95 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-base-300 shadow-xl">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-primary to-secondary text-white shadow-md mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Edit User
+            </h2>
+            <p class="text-sm md:text-base text-base-content/70 mt-2">
+                Update user profile details and role assignment.
+            </p>
+        </div>
+
+        <!-- Error Alert -->
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-error shadow-sm mb-6 rounded-xl border border-error/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+
+        <!-- Form -->
+        <form asp-controller="Users"
+              asp-action="Edit"
+              asp-route-id="@Model.UserId"
+              method="post"
+              class="space-y-5">
+
+            <!-- User ID (Readonly) -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold text-base text-base-content">User ID</span>
+                </label>
+                <input type="text"
+                       value="@Model.UserId"
+                       class="input input-bordered input-lg w-full rounded-xl text-base bg-base-200/60 text-base-content/60 cursor-not-allowed font-mono"
+                       readonly />
+            </div>
+
+            <!-- Full Name -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold text-base text-base-content">Full Name</span>
+                </label>
+                <input type="text"
+                       name="fullName"
+                       value="@Model.FullName"
+                       placeholder="Enter full name"
+                       class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40"
+                       required />
+            </div>
+
+            <!-- Email -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold text-base text-base-content">Email</span>
+                </label>
+                <input type="email"
+                       name="email"
+                       value="@Model.Email"
+                       placeholder="user@example.com"
+                       class="input input-bordered input-lg w-full rounded-xl focus:input-primary text-base bg-base-200/40"
+                       required />
+            </div>
+
+            <!-- Role Select -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold text-base text-base-content">Role</span>
+                </label>
+                <select name="roleName"
+                        class="select select-bordered select-lg w-full rounded-xl focus:select-primary text-base bg-base-100 border-2 font-medium shadow-sm"
+                        required>
+                    @foreach (var role in (List<Role>)ViewBag.Roles)
+                    {
+                        <option value="@role.RoleName"
+                                selected="@(role.RoleName == currentRole)">
+                            @role.RoleName
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
+                <button type="submit"
+                        class="btn btn-primary btn-lg w-full sm:flex-1 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
+                    Update User
+                </button>
+
+                <a asp-controller="Users"
+                   asp-action="Index"
+                   class="btn btn-outline btn-lg w-full sm:w-auto px-6 rounded-xl font-medium">
+                    Back to Users
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

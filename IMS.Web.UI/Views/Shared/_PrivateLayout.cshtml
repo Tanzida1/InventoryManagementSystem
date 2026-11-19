@@ -1,0 +1,268 @@
+﻿@{
+    var userName = User.Identity?.Name ?? "User";
+    var isAdmin = User.IsInRole("Administrator");
+
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var userInitial = string.IsNullOrWhiteSpace(userName)
+        ? "U"
+        : userName.Substring(0, 1).ToUpper();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - IMS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@@tailwindcss/browser@4"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="ims-body">
+
+    <div class="ims-app">
+
+        <!-- SIDEBAR -->
+        <aside class="ims-sidebar">
+
+            <div class="ims-brand">
+                <div class="ims-brand-logo">I</div>
+
+                <div class="ims-brand-text">
+                    <h2>IMS</h2>
+                    <span>Inventory Management</span>
+                </div>
+            </div>
+
+
+            <div class="ims-sidebar-content">
+
+                <div class="ims-nav-section">
+
+                    <p class="ims-nav-heading">WORKSPACE</p>
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="ims-nav-link @(currentController == "Home" ? "active" : "")">
+
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                </div>
+
+
+                <div class="ims-nav-section">
+
+                    <p class="ims-nav-heading">INVENTORY MANAGEMENT</p>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="package"></i>
+                        <span>Items</span>
+                        <small>SOON</small>
+                    </span>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="tags"></i>
+                        <span>Categories</span>
+                        <small>SOON</small>
+                    </span>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="warehouse"></i>
+                        <span>Warehouses</span>
+                        <small>SOON</small>
+                    </span>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="truck"></i>
+                        <span>Suppliers</span>
+                        <small>SOON</small>
+                    </span>
+
+                </div>
+
+
+                <div class="ims-nav-section">
+
+                    <p class="ims-nav-heading">OPERATIONS</p>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="clipboard-list"></i>
+                        <span>Requisitions</span>
+                        <small>SOON</small>
+                    </span>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="shopping-cart"></i>
+                        <span>Purchase Orders</span>
+                        <small>SOON</small>
+                    </span>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="arrow-left-right"></i>
+                        <span>Stock Transfer</span>
+                        <small>SOON</small>
+                    </span>
+
+                    <span class="ims-nav-link disabled">
+                        <i data-lucide="chart-no-axes-combined"></i>
+                        <span>Reports</span>
+                        <small>SOON</small>
+                    </span>
+
+                </div>
+
+
+                @if (isAdmin)
+                {
+                    <div class="ims-nav-section">
+
+                        <p class="ims-nav-heading">ACCESS CONTROL</p>
+
+                        <a asp-controller="Users"
+                           asp-action="Index"
+                           class="ims-nav-link @(currentController == "Users" ? "active" : "")">
+
+                            <i data-lucide="users"></i>
+                            <span>User Management</span>
+                        </a>
+
+                        <a asp-controller="Permission"
+                           asp-action="Index"
+                           class="ims-nav-link @(currentController == "Permission" ? "active" : "")">
+
+                            <i data-lucide="shield-check"></i>
+                            <span>Permissions</span>
+                        </a>
+
+                        <a asp-controller="RolePermission"
+                           asp-action="Index"
+                           class="ims-nav-link @(currentController == "RolePermission" ? "active" : "")">
+
+                            <i data-lucide="shield"></i>
+                            <span>Role Permissions</span>
+                        </a>
+
+                    </div>
+                }
+
+            </div>
+
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="ims-sidebar-bottom">
+                <div class="ims-sidebar-user">
+
+                    <div class="ims-user-avatar">
+                        @userInitial
+                    </div>
+
+                    <div class="ims-user-info">
+                        <strong>@userName</strong>
+                        <span>@(isAdmin ? "Administrator" : "System User")</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN AREA -->
+        <div class="ims-main">
+
+            <!-- HEADER -->
+            <header class="ims-header">
+
+                <div class="ims-header-left">
+                    <div class="ims-page-heading">
+                        <h1>@ViewData["Title"]</h1>
+                        <p>Inventory Management System</p>
+                    </div>
+                </div>
+
+
+                <div class="ims-header-right">
+
+                    <div class="ims-header-profile">
+
+                        <div class="ims-user-avatar header-avatar">
+                            @userInitial
+                        </div>
+
+                        <div class="ims-user-info header-user-info">
+                            <strong>@userName</strong>
+                            <span>@(isAdmin ? "Administrator" : "System User")</span>
+                        </div>
+
+                    </div>
+
+
+                    <form asp-controller="Authentication"
+                          asp-action="Logout"
+                          method="post"
+                          class="ims-logout-form">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="ims-logout-button">
+                            <i data-lucide="log-out"></i>
+                            <span>Logout</span>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </header>
+
+
+            <!-- PAGE CONTENT -->
+            <main class="ims-content">
+
+                @RenderBody()
+
+            </main>
+
+
+            <!-- FOOTER -->
+            <footer class="ims-footer">
+
+                <span>© @DateTime.Now.Year IMS. All rights reserved.</span>
+
+                <span>Inventory Management System</span>
+
+            </footer>
+
+        </div>
+
+    </div>
+
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+            lucide.createIcons();
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

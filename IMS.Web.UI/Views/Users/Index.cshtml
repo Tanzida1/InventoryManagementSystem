@@ -1,0 +1,138 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using IMS.Entities.Access
+@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Top Header & Action Box -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-orange-200 p-6 rounded-2xl border border-base-300 shadow-sm mb-6">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                User Management
+            </h2>
+            <p class="text-sm md:text-base text-base-content/70 mt-1">
+                Manage system users, view roles, activate or deactivate accounts.
+            </p>
+        </div>
+
+        <a asp-controller="Users" asp-action="Create"
+           class="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl  bg-transparent
+            hover:from-violet-700 hover:to-blue-700 text-white font-bold text-sm tracking-wide shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add New User
+        </a>
+    </div>
+
+    <!-- Alert Messages -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success shadow-sm mb-6 rounded-xl border border-success/20">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>@TempData["SuccessMessage"]</span>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-error shadow-sm mb-6 rounded-xl border border-error/20">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>@TempData["ErrorMessage"]</span>
+        </div>
+    }
+
+    <!-- Styled Table Container -->
+    <div class="bg-teal-100 rounded-2xl border border-base-300 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="table w-full text-left border-collapse">
+                <thead class="bg-base-200/60 text-base-content uppercase text-xs tracking-wider font-semibold border-b border-base-300">
+                    <tr>
+                        <th class="py-4 px-6">User ID</th>
+                        <th class="py-4 px-6">Full Name</th>
+                        <th class="py-4 px-6">Email</th>
+                        <th class="py-4 px-6">Role</th>
+                        <th class="py-4 px-6">Status</th>
+                        <th class="py-4 px-6 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-base-200 text-sm">
+                    @foreach (var user in Model)
+                    {
+                        <tr class="hover:bg-base-50/50 transition-colors duration-150">
+                            <td class="py-4 px-6 font-medium text-base-content/80">@user.UserId</td>
+                            <td class="py-4 px-6 font-semibold text-base-content">@user.FullName</td>
+                            <td class="py-4 px-6 text-base-content/70">@user.Email</td>
+                            <td class="py-4 px-6">
+                                <span class="badge badge-ghost badge-sm font-medium">
+                                    @string.Join(", ", user.UserRoles.Select(userRole => userRole.Role?.RoleName))
+                                </span>
+                            </td>
+                            <td class="py-4 px-6">
+                                @if (user.IsActive)
+                                {
+                                    <span class="badge badge-success badge-soft gap-1 px-3 py-2 font-medium text-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-error badge-soft gap-1 px-3 py-2 font-medium text-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        Inactive
+                                    </span>
+                                }
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <!-- Edit Button -->
+                                    <a asp-controller="Users"
+                                       asp-action="Edit"
+                                       asp-route-id="@user.UserId"
+                                       class="btn btn-sm btn-outline btn-primary px-3 rounded-lg font-medium">
+                                        Edit
+                                    </a>
+
+                                    <!-- Deactivate / Activate Button Form -->
+                                    @if (user.IsActive)
+                                    {
+                                        <form asp-controller="Users"
+                                              asp-action="Deactivate"
+                                              asp-route-id="@user.UserId"
+                                              method="post"
+                                              style="display:inline">
+                                            <button type="submit" class="btn btn-sm btn-error btn-outline px-3 rounded-lg font-medium">
+                                                Deactivate
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="Users"
+                                              asp-action="Activate"
+                                              asp-route-id="@user.UserId"
+                                              method="post"
+                                              style="display:inline">
+                                            <button type="submit" class="btn btn-sm btn-success btn-outline px-3 rounded-lg font-medium">
+                                                Activate
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

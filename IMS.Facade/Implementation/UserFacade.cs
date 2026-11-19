@@ -119,6 +119,93 @@ namespace IMS.Facade.Implementation
         }
 
 
+        public async Task<List<Role>> GetAllRolesAsync()
+        {
+            return await _userRepository.GetAllRolesAsync();
+        }
+
+
+
+        public async Task<bool> UpdateUserRoleAsync(
+            int userId,
+            string roleName)
+        {
+            if (string.IsNullOrWhiteSpace(roleName))
+                return false;
+
+            // Find the user
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (user == null)
+                return false;
+
+            // Check whether the user is currently an Administrator
+            bool isAdministrator = user.UserRoles.Any(userRole =>
+                userRole.Role?.RoleName == "Administrator");
+
+            // Check whether another active Administrator exists
+            if (isAdministrator && roleName != "Administrator")
+            {
+                var allUsers = await _userRepository.GetAllAsync();
+
+                int activeAdministrators = allUsers.Count(existingUser =>
+                    existingUser.IsActive &&
+                    existingUser.UserRoles.Any(userRole =>
+                        userRole.Role?.RoleName == "Administrator"));
+
+                if (activeAdministrators <= 1)
+                    return false;
+            }
+
+            return await _userRepository.UpdateUserRoleAsync(
+                userId,
+                roleName);
+        }
+
+
+
+
+
+
+
+        public async Task<bool> SetActiveStatusAsync(
+            int userId,
+            bool isActive)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (user == null)
+                return false;
+
+            // Prevent deactivating the last active Administrator
+            if (!isActive)
+            {
+                bool isAdministrator = user.UserRoles.Any(userRole =>
+                    userRole.Role?.RoleName == "Administrator");
+
+                if (isAdministrator)
+                {
+                    var allUsers = await _userRepository.GetAllAsync();
+
+                    int activeAdministrators = allUsers.Count(existingUser =>
+                        existingUser.IsActive &&
+                        existingUser.UserRoles.Any(userRole =>
+                            userRole.Role?.RoleName == "Administrator"));
+
+                    if (activeAdministrators <= 1)
+                        return false;
+                }
+            }
+
+            return await _userRepository.SetActiveStatusAsync(
+                userId,
+                isActive);
+        }
+
+
+
+
+
 
 
 

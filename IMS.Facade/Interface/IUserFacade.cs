@@ -30,6 +30,17 @@ namespace IMS.Facade.Interface
         Task<User?> AuthenticateAsync(string email, string password);
 
 
+        // 8. Get all available roles
+        Task<List<Role>> GetAllRolesAsync();
+
+        // 9. Update user's assigned role
+        Task<bool> UpdateUserRoleAsync(int userId, string roleName);
+
+        // 10. Activate or deactivate user
+        Task<bool> SetActiveStatusAsync(int userId, bool isActive);
+
+
+
 
     }
 }

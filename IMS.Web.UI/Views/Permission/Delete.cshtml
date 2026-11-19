@@ -1,0 +1,143 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IMS.Entities.Access.Permission
+
+@{
+    ViewData["Title"] = "Delete Permission";
+    Layout = "_PrivateLayout";
+}
+
+<style>
+    .delete-permission-container {
+        max-width: 650px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+        .delete-permission-container h2 {
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #c0392b;
+            text-align: center;
+        }
+
+        .delete-permission-container h4 {
+            text-align: center;
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f1f2f6;
+            padding-bottom: 15px;
+        }
+
+    .detail-card {
+        background: #fdfefe;
+        border: 1px solid #eaeded;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .detail-row {
+        display: flex;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #f2f4f4;
+        padding-bottom: 8px;
+    }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+    .detail-label {
+        font-weight: 600;
+        color: #34495e;
+        width: 35%;
+    }
+
+    .detail-value {
+        color: #2c3e50;
+        width: 65%;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+</style>
+
+<div class="delete-permission-container">
+    <h2>Delete Permission</h2>
+
+    <h4>Are you sure you want to delete this permission?</h4>
+
+    <div class="detail-card">
+        <div class="detail-row">
+            <div class="detail-label">Permission ID</div>
+            <div class="detail-value">@Model.PermissionId</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Permission Name</div>
+            <div class="detail-value">@Model.PermissionName</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Display Text</div>
+            <div class="detail-value">@Model.DisplayText</div>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.PermissionId" />
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">
+                Delete
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>

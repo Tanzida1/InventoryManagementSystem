@@ -1,0 +1,417 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IMS - Login</title>
+
+    <style>
+            /* ---------- Reset & Base ---------- */
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+                background: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 50%, #eef2ff 100%);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 15px;
+                color: #1f2937;
+                line-height: 1.5;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            /* ---------- Card Container ---------- */
+            .container {
+                width: 100%;
+                max-width: 450px;
+                background: #ffffff;
+                padding: 36px 32px;
+                border-radius: 16px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(37, 99, 235, 0.08), 0 20px 40px -20px rgba(0, 0, 0, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.8);
+                animation: fadeInUp 0.5s ease-out;
+                position: relative;
+            }
+
+                /* decorative gradient top bar */
+                .container::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 16px;
+                    right: 16px;
+                    height: 4px;
+                    background: linear-gradient(90deg, #2563eb, #7c3aed, #2563eb);
+                    border-radius: 0 0 4px 4px;
+                    opacity: 0.7;
+                }
+
+            @@keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* ---------- Heading (h2 inside container, or directly before form) ---------- */
+            h2 {
+                font-size: 1.65rem;
+                font-weight: 700;
+                color: #111827;
+                text-align: center;
+                margin-bottom: 24px;
+                letter-spacing: -0.02em;
+            }
+
+            /* ---------- Form Groups ---------- */
+            .form-group {
+                margin-bottom: 20px;
+                position: relative;
+            }
+
+            /* ---------- Labels ---------- */
+            label {
+                display: block;
+                margin-bottom: 8px;
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #374151;
+                letter-spacing: 0.01em;
+            }
+
+            /* inline checkbox label spacing */
+            input[type="checkbox"] + label {
+                display: inline;
+                margin-left: 8px;
+                margin-bottom: 0;
+                font-weight: 500;
+                font-size: 0.9rem;
+                color: #4b5563;
+                cursor: pointer;
+            }
+
+            /* ---------- Inputs (text, email, password) ---------- */
+            input[type="text"],
+            input[type="email"],
+            input[type="password"] {
+                width: 100%;
+                padding: 12px 14px;
+                font-size: 0.95rem;
+                font-family: inherit;
+                color: #111827;
+                background: #f9fafb;
+                border: 1.5px solid #e5e7eb;
+                border-radius: 10px;
+                transition: all 0.2s ease;
+                outline: none;
+            }
+
+                input[type="text"]::placeholder,
+                input[type="email"]::placeholder,
+                input[type="password"]::placeholder {
+                    color: #9ca3af;
+                }
+
+                input[type="text"]:hover,
+                input[type="email"]:hover,
+                input[type="password"]:hover {
+                    border-color: #cbd5e1;
+                    background: #ffffff;
+                }
+
+                input[type="text"]:focus,
+                input[type="email"]:focus,
+                input[type="password"]:focus {
+                    border-color: #2563eb;
+                    background: #ffffff;
+                    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+                }
+
+            /* ---------- Checkbox ---------- */
+            input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                accent-color: #2563eb;
+                cursor: pointer;
+                vertical-align: middle;
+                border-radius: 4px;
+                transition: all 0.15s ease;
+            }
+
+                input[type="checkbox"]:hover {
+                    accent-color: #1d4ed8;
+                }
+
+                input[type="checkbox"]:focus-visible {
+                    outline: 3px solid rgba(37, 99, 235, 0.4);
+                    outline-offset: 2px;
+                    border-radius: 4px;
+                }
+
+            /* ---------- Button ---------- */
+            button {
+                width: 100%;
+                padding: 13px 16px;
+                font-size: 1rem;
+                font-weight: 600;
+                font-family: inherit;
+                color: #ffffff;
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                letter-spacing: 0.02em;
+                transition: all 0.2s ease;
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+                margin-top: 6px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                /* subtle shine effect */
+                button::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+                    transition: left 0.5s ease;
+                }
+
+                button:hover::after {
+                    left: 100%;
+                }
+
+                button:hover {
+                    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+                    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+                    transform: translateY(-1px);
+                }
+
+                button:active {
+                    transform: translateY(0);
+                    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+                }
+
+                button:focus-visible {
+                    outline: 3px solid rgba(37, 99, 235, 0.4);
+                    outline-offset: 2px;
+                }
+
+                button:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    transform: none;
+                    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
+                }
+
+            /* ---------- Validation States ---------- */
+            input.invalid {
+                border-color: #ef4444;
+                background: #fef2f2;
+            }
+
+                input.invalid:focus {
+                    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+                }
+
+            input.valid {
+                border-color: #10b981;
+                background: #ffffff;
+            }
+
+            /* ---------- Messages (error/success) ---------- */
+            .error,
+            .success {
+                font-size: 0.85rem;
+                font-weight: 500;
+                margin-top: 6px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                animation: slideDown 0.25s ease-out;
+            }
+
+            .error {
+                color: #dc2626;
+            }
+
+            .success {
+                color: #059669;
+            }
+
+            @@keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-4px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* ---------- Inline Error (ViewBag.Error paragraph) ---------- */
+            p[style*="color:red"] {
+                background: #fef2f2;
+                color: #b91c1c !important;
+                font-size: 0.9rem;
+                font-weight: 500;
+                padding: 10px 14px;
+                border-radius: 10px;
+                border-left: 4px solid #ef4444;
+                margin-bottom: 20px;
+                line-height: 1.4;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+                p[style*="color:red"]::before {
+                    content: '⚠';
+                    font-size: 1.1rem;
+                }
+
+            /* ---------- Form layout tweaks (spacing via br) ---------- */
+            form br {
+                display: none; /* hide default br, spacing handled by margins */
+            }
+
+            form > div {
+                margin-bottom: 20px;
+            }
+
+                /* checkbox row */
+                form > div:last-of-type {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 24px;
+                }
+
+            /* ---------- Responsive ---------- */
+            @@media (max-width: 480px) {
+                body {
+                    padding: 20px 12px;
+                }
+
+                .container {
+                    padding: 28px 22px;
+                    border-radius: 14px;
+                }
+
+                h2 {
+                    font-size: 1.4rem;
+                    margin-bottom: 20px;
+                }
+
+                input[type="text"],
+                input[type="email"],
+                input[type="password"] {
+                    font-size: 16px; /* prevents iOS zoom */
+                }
+            }
+
+            /* ---------- Accessibility: reduced motion ---------- */
+            @@media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation: none !important;
+                    transition: none !important;
+                }
+
+                .container::before {
+                    opacity: 0.4;
+                }
+
+                button::after {
+                    display: none;
+                }
+            }
+    </style>
+
+
+
+</head>
+<body>
+
+    <h2>IMS Login</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <p style="color:red">@ViewBag.Error</p>
+    }
+
+    <form asp-controller="Authentication"
+          asp-action="Login"
+          method="post">
+
+        <input type="hidden"
+               name="returnUrl"
+               value="@ViewBag.ReturnUrl" />
+
+        <div>
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   value="@ViewBag.Email"
+                   required />
+        </div>
+
+        <br />
+
+        <div>
+            <label>Password</label>
+            <input type="password"
+                   name="password"
+                   required />
+        </div>
+
+        <br />
+
+        <div>
+            <input type="checkbox"
+                   name="rememberMe"
+                   value="true" />
+            <label>Remember Me</label>
+        </div>
+
+        <br />
+
+        <button type="submit">Login</button>
+
+    </form>
+
+
+
+
+</body>
+</html>
+
